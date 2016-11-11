@@ -34,5 +34,29 @@ public class Triple {
 		
 		return Result;
 	}
+	public String getTripleId() {
+		return tripleId;
+	}
+	public void setTripleId(String tripleId) {
+		this.tripleId = tripleId;
+	}
+	public String getSubjectType() {
+		return subjectType;
+	}
+	public void setSubjectType(String subjectType) {
+		this.subjectType = subjectType;
+	}
+	public String getObjectType() {
+		return objectType;
+	}
+	public void setObjectType(String objectType) {
+		this.objectType = objectType;
+	}
+	public String getPropertyType() {
+		return propertyType;
+	}
+	public void setPropertyType(String propertyType) {
+		this.propertyType = propertyType;
+	}
 	
 }

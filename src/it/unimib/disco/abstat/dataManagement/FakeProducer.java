@@ -12,9 +12,12 @@ import java.util.List;
 public class FakeProducer extends Thread {
 	private SharedFileReader sfr;
 	private  InputStream inputstream;
-	private 			BufferedReader in ;
-
-
+	private 			BufferedReader in;
+	   private MongoDbConnector mongo;
+	   private String host="localhost";
+	   private int port=27017;
+	   private String Db="abstat";
+	   private String coll="akp";
 
 	public FakeProducer(String filename,SharedFileReader s){
 		try {
@@ -24,10 +27,13 @@ public class FakeProducer extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+     
 		sfr=s;
 }
 public void run(){
+	  mongo=new MongoDbConnector(host,port,Db,coll);
+	
+	long startTimeTotal = System.currentTimeMillis();
 	   int i=0;	
 	   int count=0;
 		String line = null;
@@ -41,17 +47,27 @@ public void run(){
 				{
 					long endTime   = System.currentTimeMillis();
 					long totalTime = endTime - startTime;
-					System.out.println("caricato riga "+i+ "in "+ totalTime/1000+" secondi");
+					System.out.println("caricato riga "+i+ "in "+ totalTime/1000+"  secondi");
 				}
 				sfr.putSingle(singleBuf);
 			
           }
-			System.out.println("finito!!!");
-				System.exit(0);
-		} catch (IOException e) {
+			} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+	 
+		  mongo.setOccurrency();
+		  mongo.close();
+			long endTime   = System.currentTimeMillis();
+			long totalTime = endTime - startTimeTotal;
+			System.out.println("Caricamento terminat in "+ totalTime/1000+" secondi");
+	
+	   System.out.println("finito di caricare i dati");
+	   System.exit(0);  
+
+
 		}
 
 public void close(){

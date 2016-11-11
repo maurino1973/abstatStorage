@@ -26,12 +26,24 @@ import java.util.concurrent.Executors;
 
 
 public class TestCase {
-
+	
 	public static void main(String[] args) {
-		long startTime = System.currentTimeMillis();
-      SharedFileReader sfr=new SharedFileReader();		
-      FakeProducer f=new FakeProducer("data/parte_aa_aa",sfr); 
-      MongoWriter m=new MongoWriter(sfr);
+    SharedFileReader sfr=new SharedFileReader();	
+    boolean fillAkp=true;
+    MongoDbConnector mongo;
+	String host="localhost";
+	int port=27017;
+	String Db="abstat";
+	String coll="akp";
+
+    long startTimeTotal = System.currentTimeMillis();
+	
+//      FakeProducer f=new FakeProducer("data/allData",sfr); 
+    if (fillAkp){
+    	   FakeProducer f=new FakeProducer("data/allData",sfr); 
+    	    f.start();
+    	 
+    	MongoWriter m=new MongoWriter(sfr);
       MongoWriter m1=new MongoWriter(sfr);
       MongoWriter m2=new MongoWriter(sfr);
       MongoWriter m3=new MongoWriter(sfr);
@@ -39,10 +51,9 @@ public class TestCase {
       MongoWriter m5=new MongoWriter(sfr);
       MongoWriter m6=new MongoWriter(sfr);
       MongoWriter m7=new MongoWriter(sfr);
-      
       MongoWriter m8=new MongoWriter(sfr);
       MongoWriter m9=new MongoWriter(sfr);
-      f.start();
+      
       m.start();
       m1.start();
       m2.start();
@@ -53,15 +64,18 @@ public class TestCase {
       m7.start();
       m8.start();
       m9.start();
-
-      /*
-     MongoWriter m10=new MongoWriter(sfr);
-     m10.CreateFrequency();          
-        */
-
+    }
+    else {    
+    mongo=new MongoDbConnector(host,port,Db,coll);
+	  mongo.setOccurrency();
+	  mongo.close();
 		long endTime   = System.currentTimeMillis();
-		long totalTime = endTime - startTime;
-		System.out.println(totalTime/1000);
+		long totalTime = endTime - startTimeTotal;
+		System.out.println("Caricamento terminat in "+ totalTime/1000+" secondi");
+    }
+
+    	
+    
 
 	}
 

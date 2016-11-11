@@ -15,19 +15,12 @@ private String akpId;
 private String subjectType;
 private String objectType;
 private String propertyType;
-private int minCardSubject;
-private int maxCardSubject;
-private int minCardObject;
-private int maxCardObject;
-private int minCardSubProperties;
-private int maxCardSubProperties;
-private int frequency;
-private Document triple;
+private Triple t;
 
 public Akp(String inputLine){
 	StringTokenizer st = new StringTokenizer(inputLine, "[");
-	Triple t=new Triple(st.nextElement().toString());
-		triple=t.getDoc(); 
+	t=new Triple(st.nextElement().toString());
+		 
 	
 	StringTokenizer st2 = new StringTokenizer(st.nextElement().toString(), "##");
 	subjectType=st2.nextElement().toString();
@@ -42,11 +35,10 @@ public String toString() {
 	return Result;
 	}
 public Document getDoc(){ //solo dati akp no triples
-	Document doc=new Document("akpId", akpId)
-	.append("subjetType", subjectType)
-    .append("propertyType", propertyType)
-    .append("objectType", objectType)
-    .append("triple", triple);
+	Document doc=new Document("akpIdSub", akpId+"["+t.getSubjectType())
+			.append("akpIdObj",akpId+"["+t.getObjectType())
+			.append("akpId", akpId)
+			.append("value", 1);
 	return doc;
 }
 

@@ -37,9 +37,6 @@ private MongoDbConnector mongo;
 	// }
 }
 		
-	public void CreateFrequency(){
-		mongo.setFrequency();
-	}
 	
     public void close(){
     	mongo.close();
