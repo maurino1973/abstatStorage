@@ -19,21 +19,23 @@ private Triple t;
 
 public Akp(String inputLine){
 	StringTokenizer st = new StringTokenizer(inputLine, "[");
+	
 	t=new Triple(st.nextElement().toString());
 		 
-	
 	StringTokenizer st2 = new StringTokenizer(st.nextElement().toString(), "##");
-	subjectType=st2.nextElement().toString();
-	propertyType=st2.nextElement().toString();
-	objectType=st2.nextElement().toString().replaceAll("]", "");
+	if (st2.countTokens()>=3){
+	subjectType=st2.nextElement().toString().replaceAll(" ","").replaceAll("<","").replaceAll(">", "").replaceAll("]", "").replace("http://", "").replace("dbpedia.org/ontology", "dbo").replace("dbpedia.org/property","dbp").replace("dbpedia.org/resource","dbr");
+	propertyType=st2.nextElement().toString().replaceAll(" ","").replaceAll("<","").replaceAll(">", "").replaceAll("]", "").replace("http://", "").replace("dbpedia.org/ontology", "dbo").replace("dbpedia.org/property","dbp").replace("dbpedia.org/resource","dbr");
+	objectType=st2.nextElement().toString().replaceAll(" ","").replaceAll("<","").replaceAll(">", "").replaceAll("]", "").replace("http://", "").replace("dbpedia.org/ontology", "dbo").replace("dbpedia.org/property","dbp").replace("dbpedia.org/resource","dbr");
 	akpId=subjectType+"##"+propertyType+"##"+objectType;
 	}
-
+}
 public String toString() {
 	String Result="{akpId:\""+akpId+"\" \n"+"subjecType:\""+subjectType+"\" \n"+"objectType:\""+objectType+"\" \n}";
 	
 	return Result;
 	}
+
 public Document getDoc(){ //solo dati akp no triples
 	Document doc=new Document("akpIdSub", akpId+"["+t.getSubjectType())
 			.append("akpIdObj",akpId+"["+t.getObjectType())
@@ -41,8 +43,16 @@ public Document getDoc(){ //solo dati akp no triples
 			.append("value", 1);
 	return doc;
 }
-
-
+public Triple getTriple(){return t;}
+public Document getAkp(){
+	Document doc=new Document("akpId",akpId)
+	.append("subjectType",this.subjectType)
+	.append("objectType", this.objectType)
+	.append("propertyType",this.propertyType)
+			;
+	
+	return doc;
+}
 public String getSubjectType() {
 	return subjectType;
 }

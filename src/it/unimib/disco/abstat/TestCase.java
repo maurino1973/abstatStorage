@@ -40,20 +40,20 @@ public class TestCase {
 	
 //      FakeProducer f=new FakeProducer("data/allData",sfr); 
     if (fillAkp){
-    	   FakeProducer f=new FakeProducer("data/allData",sfr); 
+    	   FakeProducer f=new FakeProducer("data/allData",sfr, coll); 
     	    f.start();
     	 
-    	MongoWriter m=new MongoWriter(sfr);
-      MongoWriter m1=new MongoWriter(sfr);
-      MongoWriter m2=new MongoWriter(sfr);
-      MongoWriter m3=new MongoWriter(sfr);
-      MongoWriter m4=new MongoWriter(sfr);
-      MongoWriter m5=new MongoWriter(sfr);
-      MongoWriter m6=new MongoWriter(sfr);
-      MongoWriter m7=new MongoWriter(sfr);
-      MongoWriter m8=new MongoWriter(sfr);
-      MongoWriter m9=new MongoWriter(sfr);
-      
+    	MongoWriter m=new MongoWriter(sfr,coll,"");
+      MongoWriter m1=new MongoWriter(sfr,coll,"");
+      MongoWriter m2=new MongoWriter(sfr,coll,"");
+      MongoWriter m3=new MongoWriter(sfr,coll,"");
+      MongoWriter m4=new MongoWriter(sfr,coll,"");
+      MongoWriter m5=new MongoWriter(sfr,coll,"");
+      MongoWriter m6=new MongoWriter(sfr,coll,"");
+      MongoWriter m7=new MongoWriter(sfr,coll,"");
+      MongoWriter m8=new MongoWriter(sfr,coll,"");
+      MongoWriter m9=new MongoWriter(sfr,coll,"");
+    
       m.start();
       m1.start();
       m2.start();

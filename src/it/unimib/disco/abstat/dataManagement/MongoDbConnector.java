@@ -57,9 +57,61 @@ public class MongoDbConnector {
 		//Document triples= new Document("$addToSet",akp.getTriplesDoc());
 			
 		//collection.updateOne(query, triples, upsert);
-		collection.insertOne(akp.getDoc());
-		return 0;
+		if (akp.getSubjectType()!=null && akp.getAkpId().length()<=120)
+			collection.insertOne(akp.getDoc());
+		return 0; 
 	}
+	
+	
+	public void insertAkpAndTriple(Akp akp){
+		  
+		collection.insertOne(akp.getAkp());
+	    //collection.updateOne(new Document("tripleId",akp.getTriple().getTripleId()),new Document("$set",akp.getTriple().getDoc()),new UpdateOptions().upsert(true));
+	    collection.insertOne(akp.getTriple().getTripleDoc());
+	    collection.insertOne(new Document("aId",akp.getAkpId()).append("tId", akp.getTriple().getTripleId()));	
+	}
+	
+	public void insertAkpbySubject(Akp akp, String sub){
+		if (akp.getSubjectType()!=null ){
+			if (akp.getTriple().getObjectType()!=null)
+				if (akp.getAkpId().length()+akp.getTriple().getObjectType().length()<=120)
+					if (akp.getSubjectType().equals(sub)){ 
+						collection.insertOne(akp.getDoc());
+	}
+		 }
+	}
+
+public void createAkpbySubject(Akp akp, String sub){
+			if (akp.getSubjectType()!=null){
+				 if (akp.getSubjectType().equals(sub)){ 
+				collection.insertOne(akp.getAkp());
+		    //collection.updateOne(new Document("tripleId",akp.getTriple().getTripleId()),new Document("$set",akp.getTriple().getDoc()),new UpdateOptions().upsert(true));
+		    collection.insertOne(akp.getTriple().getTripleDoc());
+		    collection.insertOne(new Document("aId",akp.getAkpId()).append("tId", akp.getTriple().getTripleId()));	
+		}
+			 }
+
+		}
+	/*
+	db.etl.aggregate(
+			[{ $group:{
+			    _id:{akpId:"$tripleId",
+			subjectTriple:"$subjectTriple",
+			propertyTriple:"$propertyTriple",
+			objectTriple:"$objectTriple"
+
+			    
+			}
+			}
+			},{
+			    $out:"AkpTripleJoin"}
+			]
+			,
+			{allowDiskUse:true}
+			)
+			*/
+
+	
 	public void setOccurrency(){
 		System.out.println("inizio calcolo cardinalita'");
 		

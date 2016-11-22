@@ -12,18 +12,29 @@ public class Triple {
 	private String propertyType;
 	
 	public Triple(String inputLine){
-		tripleId=inputLine;
-		StringTokenizer st = new StringTokenizer(inputLine, "##");
-		subjectType=st.nextElement().toString().replaceAll("<", "");
-		propertyType=st.nextElement().toString();
-		objectType=st.nextElement().toString().replaceAll(">", "");
-		
+		tripleId=inputLine.replaceAll("<", "").replaceAll(">", "").replaceAll(" ", "");
+		StringTokenizer st = new StringTokenizer(tripleId, "##");
+		if (st.countTokens()>=3){
+		subjectType=st.nextElement().toString().replace("dbpedia.org/ontology", "dbo").replace("dbpedia.org/property","dbp").replace("http://","").replace("dbpedia.org/resource","dbr");
+		propertyType=st.nextElement().toString().replace("dbpedia.org/ontology", "dbo").replace("dbpedia.org/property","dbp").replace("http://","").replace("dbpedia.org/resource","dbr");
+		objectType=st.nextElement().toString().replace("dbpedia.org/ontology", "dbo").replace("dbpedia.org/property","dbp").replace("http://","").replace("dbpedia.org/resource","dbr");
+		}
 	}
 	public Document getDoc(){
 		Document doc=new Document("tripleId", tripleId)
 		.append("subjetType", subjectType)
 	    .append("propertyType", propertyType)
 	    .append("objectType", objectType);
+		
+
+		return doc;
+	}
+	
+	public Document getTripleDoc(){
+		Document doc=new Document("tripleId", tripleId)
+		.append("subjetTriple", subjectType)
+	    .append("propertyTriple", propertyType)
+	    .append("objectTriple", objectType);
 		
 
 		return doc;
